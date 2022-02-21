@@ -5,12 +5,7 @@ const app = express();
 // IMPORTACION RUTAS
 
 const usuarioRoutes = require('./src/routes/usuario.routes');
-
-
-/*const productosRoutes = require('./src/routes/productos.routes');
-const ejemplosRoutes = require('./src/routes/ejemplos.routes');
-const encuestasRoutes = require('./src/routes/encuestas.routes');
-*/
+const cursoRoutes = require('./src/routes/curso.routes');
 
 // MIDDLEWARES
 app.use(express.urlencoded({ extended: false }));
@@ -21,6 +16,6 @@ app.use(cors());
 
 
 // CARGA DE RUTAS localhost:3000/api/productos
-app.use('/api', usuarioRoutes/*, productosRoutes, ejemplosRoutes, encuestasRoutes*/);
+app.use('/api', usuarioRoutes, cursoRoutes, /* ejemplosRoutes, encuestasRoutes*/);
 
 module.exports = app;

@@ -1,25 +1,29 @@
 const Curso = require('../models/curso.model');
 
 
-function agregarCursos(req, res) {
-    var parametros = req.body;
-    var modeloCurso = new Curso();
+function agregarCurso(req, res) {
+    const parametros = req.body;
+    const modeloCurso = new Curso();
 
-    if (req.user.rol == "MAESTRO") {
-        modeloCurso.pregunta = parametros.nombre;
-        modeloCurso.nombre = parametros.nombre;
-        modeloCurso.idMaestro = req.user.sub;
+    if (req.user.rol == "MAESTRO")
 
-        modeloCurso.save((err, cursoGuardado) => {
-            if (err) return res.status(500).send({ mensaje: 'Error en la peticion' });
-            if (!cursoGuardado) return res.status(500).send({ mensaje: 'Error al agregar la Curso' })
+        if (parametros.nombreCurso) {
+            modeloCurso.nombreCurso = parametros.nombreCurso;
+            modeloCurso.idMaestro = req.user.sub;
+            modeloCurso.pregunta = parametros.nombre;
 
-            return res.status(200).send({ curso: cursoGuardado });
-        })
 
-    } else {
-        return res.status(500).send({ mensaje: 'Debe ingresar los parametros obligatorios' });
-    }
+            modeloCurso.save((err, cursoGuardado) => {
+                if (err) return res.status(400).send({ mensaje: 'Error en la peticion' });
+                if (!cursoGuardado) return res.status(400).send({ mensaje: 'Error al agregar el Curso' })
+
+                return res.status(200).send({ curso: cursoGuardado });
+            })
+
+        } else {
+            return res.status(400).send({ mensaje: 'Debe ingresar los parametros obligatorios' });
+        }
+
 }
 
 
@@ -65,7 +69,7 @@ function obtenerCursos(req, res) {
 
 
 module.exports = {
-    agregarCursos,
+    agregarCurso,
     obtenerCursos,
     editarCursos,
     EliminarCursos
